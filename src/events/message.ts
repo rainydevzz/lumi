@@ -3,7 +3,8 @@ import { MyBot } from "../MyBot";
 
 export const name = 'message';
 export const run = async (message: Message, bot: MyBot) => {
-    if(message.content?.startsWith(bot.prefix)) {
-        await bot.handler.processCommand(message);
+    const p = await bot.getPrefix(message.member.server._id) ?? bot.prefix;
+    if(message.content?.startsWith(p)) {
+        await bot.handler.processCommand(message, p);
     }
 }

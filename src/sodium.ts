@@ -8,7 +8,15 @@ export class Sodium {
     }
 
     async request(body: any, endpoint: string) {
-        const r = await fetch(`${this.url}${endpoint}`,  {method: 'POST', headers: {Authorization: this.password, 'Content-Type': 'application/json'}, body: body});
+        const r = await fetch(`http://${this.url}${endpoint}`,  
+        {
+            method: 'POST', 
+            headers: {
+                Authorization: this.password, 
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(body)
+        });
         if(r.status != 200) {
             return await r.text()
         } else {
@@ -21,13 +29,21 @@ export class Sodium {
         return r;
     }
 
-    async remove(entry: string) {
-        const r = await this.request(entry, '/delete')
+    async remove(entry: string, doc?: string) {
+        let data = {entry: entry};
+        if(doc) {
+            data['doc'] = doc;
+        }
+        const r = await this.request(data, '/delete')
         return r;
     }
 
-    async read(entry: string) {
-        const r = await this.request(entry, '/read');
+    async read(entry: string, doc?: string) {
+        let data = {entry: entry};
+        if(doc) {
+            data['doc'] = doc;
+        }
+        const r = await this.request(data, '/read');
         return r;
     }
 

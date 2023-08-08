@@ -6,6 +6,7 @@ declare global {
             SODIUM_URL: string;
             SODIUM_PORT: string;
             SODIUM_PASSWORD: string;
+            POSTGRES: string;
         }
     }
 }
