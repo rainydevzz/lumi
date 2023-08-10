@@ -127,10 +127,10 @@ export class Handler {
         for(const a of args) {
             const b = a as string;
             const num = parseInt(b, 10);
-            if(!isNaN(num)) {
+            if(!isNaN(num)) { // parses number from args
                 args[args.indexOf(a)] = num;
             }
-            if((a as string).length > 3) {   
+            if((a as string).length > 3) { // parses User objects from mentions
                 if(this.bot.users.get((a as string).slice(2, -1).toUpperCase())) {
                     args[args.indexOf(a)] = this.bot.users.get((a as string).slice(2, -1).toUpperCase());
                 }

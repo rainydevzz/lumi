@@ -9,7 +9,7 @@ export const run = async (ctx: Context) => {
     }
     let pr = ctx.args[0];
     let r = await ctx.bot.sodium.read('prefix');
-    if(typeof r == "string") {
+    if(typeof r == "string") { // checks if db structure exists and if not, creates it and writes
         let data = {prefix: {}};
         data['prefix'][ctx.message.member.server._id] = pr;
         await ctx.bot.sodium.create(data);

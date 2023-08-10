@@ -5,7 +5,7 @@ export const name = 'reaction';
 export const permissions: Permissions = [];
 export const run = async (ctx: Context) => {
     let t = '';
-    if(ctx.args[1]) {
+    if(ctx.args[1]) { // if argument exists, check if it's User to mention
         if(!(ctx.args[1] as User).username) {
             await ctx.message.channel.sendMessage("Last argument must be a mention.");
             return;

@@ -11,7 +11,6 @@ export class MyBot extends Client {
     handler: Handler;
     prisma: PrismaClient = new PrismaClient();
     logger: pino.Logger = pino(pretty());
-    testMessage: Message;
 
     constructor(sodium: Sodium) {
         super();
