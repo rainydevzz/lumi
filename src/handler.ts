@@ -19,7 +19,7 @@ interface Event {
 
 export interface Context {
     name: string;
-    args: (string | number)[];
+    args: (string | number | User)[];
     bot: MyBot;
     message: Message;
     handler: Handler
@@ -93,7 +93,7 @@ export const reactions = [
     "yawn",
     "yay",
     "yes"
-]
+];
 
 export class Handler {
     commands: Command[] = [];
@@ -122,22 +122,27 @@ export class Handler {
         }
     }
 
-    parseMention(mention: string): undefined | User {
-        if (typeof mention !== 'string' || mention.length <= 2) {
-            return;
-        }
-        return this.bot.users.get(mention.slice(2, -1).toUpperCase());
-    }
-
     async processCommand(message: Message, prefix: string) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/).map(i => i.toLowerCase()) as (string | number)[];
+        const args = message.content.slice(prefix.length).trim().split(/ +/).map(i => i.toLowerCase()) as (string | number | User)[];
+        for(const a of args) {
+            const b = a as string;
+            const num = parseInt(b, 10);
+            if(!isNaN(num)) {
+                args[args.indexOf(a)] = num;
+            }
+            if((a as string).length > 3) {   
+                if(this.bot.users.get((a as string).slice(2, -1).toUpperCase())) {
+                    args[args.indexOf(a)] = this.bot.users.get((a as string).slice(2, -1).toUpperCase());
+                }
+            }
+        }
         const name = args[0] as string;
         const ctx: Context = {name: name, args: args, bot: this.bot, message: message, handler: this};
         if(reactions.includes(name)) {
             await run(ctx);
             return;
         }
-        const command = this.commands.find(c => c.name == name);
+        const command = this.commands.find(c => c.name == ctx.name);
         if(!command) {
             await message.channel.sendMessage(`Command ${name} not found.`);
             return;
@@ -147,13 +152,6 @@ export class Handler {
             await message.channel.sendMessage("hmm.. it appears you are missing the correct permissions to execute this command.");
         }
         args.splice(0, 1);
-        for(const a of args) {
-            const b = a as string;
-            const num = parseInt(b, 10);
-            if(!isNaN(num)) {
-                args[args.indexOf(a)] = num;
-            }
-        }
         await command.callback(ctx);
     }
 }

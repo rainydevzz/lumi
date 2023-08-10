@@ -8,7 +8,7 @@ export class Sodium {
     }
 
     async request(body: any, endpoint: string) {
-        const r = await fetch(`http://${this.url}${endpoint}`,  
+        const r = await fetch(`${this.url}${endpoint}`,  
         {
             method: 'POST', 
             headers: {

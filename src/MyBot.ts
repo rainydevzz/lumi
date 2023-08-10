@@ -1,4 +1,4 @@
-import { Client } from 'revolt.js';
+import { Client, Message } from 'revolt.js';
 import { Sodium } from './sodium';
 import { Handler } from './handler';
 import { PrismaClient } from '@prisma/client';
@@ -11,6 +11,7 @@ export class MyBot extends Client {
     handler: Handler;
     prisma: PrismaClient = new PrismaClient();
     logger: pino.Logger = pino(pretty());
+    testMessage: Message;
 
     constructor(sodium: Sodium) {
         super();
@@ -37,5 +38,38 @@ export class MyBot extends Client {
         } else {
             return r['result'];
         }
+    }
+
+    async pingDBs(db: "sodium" | "postgres", log: boolean): Promise<number | undefined> {
+        let d: number;
+        let t1 = new Date().getTime();
+        if(db == "sodium") {
+            try {
+                await this.sodium.test();
+                d = new Date().getTime() - t1;
+                if(log) {
+                    this.logger.info("SodiumDB online!");
+                }
+            } catch(e) {
+                this.logger.error(e);
+                this.logger.warn("SodiumDB offline or misconfigured!");
+            }
+        } if(db == "postgres") {
+            try {
+                await this.prisma.test.findFirst();
+                d = new Date().getTime() - t1;
+                if(log) {
+                    this.logger.info("Postgres online!");
+                }
+            } catch(e) {
+                this.logger.warn("Postgres offline or misconfigured!");
+            }
+        }
+        return d;
+    }
+
+    async initialize() {
+        await this.pingDBs("sodium", true);
+        await this.pingDBs("postgres", true);
     }
 }
