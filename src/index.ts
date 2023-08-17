@@ -1,3 +1,4 @@
+import { Message } from "revolt.js";
 import { MyBot } from "./MyBot";
 import { Sodium } from "./sodium";
 import dotenv from 'dotenv';

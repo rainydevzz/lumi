@@ -1,4 +1,4 @@
-import { Client, Message } from 'revolt.js';
+import { Client } from 'revolt.js';
 import { Sodium } from './sodium';
 import { Handler } from './handler';
 import { PrismaClient } from '@prisma/client';

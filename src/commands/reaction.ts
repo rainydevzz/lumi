@@ -5,11 +5,7 @@ export const name = 'reaction';
 export const permissions: Permissions = [];
 export const run = async (ctx: Context) => {
     let t = '';
-    if(ctx.args[1]) { // if argument exists, check if it's User to mention
-        if(!(ctx.args[1] as User).username) {
-            await ctx.message.channel.sendMessage("Last argument must be a mention.");
-            return;
-        }
+    if((ctx.args[1]) && ctx.args[1] instanceof User) {
         t += `to ${(ctx.args[1] as any).username}`;
     }
     const res = await fetch(`https://api.otakugifs.xyz/gif?reaction=${(ctx.args[0] as string).toLowerCase()}`);

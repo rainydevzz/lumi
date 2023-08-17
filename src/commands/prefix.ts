@@ -3,10 +3,6 @@ import { Context, Permissions } from "../handler";
 export const name = 'prefix';
 export const permissions: Permissions = ["ManageServer"];
 export const run = async (ctx: Context) => {
-    if(!Array.isArray(ctx.args)) {
-        await ctx.message.channel.sendMessage("invalid args supplied");
-        return;
-    }
     let pr = ctx.args[0];
     let r = await ctx.bot.sodium.read('prefix');
     if(typeof r == "string") { // checks if db structure exists and if not, creates it and writes

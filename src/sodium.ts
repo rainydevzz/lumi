@@ -18,9 +18,9 @@ export class Sodium {
             body: JSON.stringify(body)
         });
         if(r.status != 200) {
-            return await r.text()
+            return await r.text();
         } else {
-            return await r.json()
+            return await r.json();
         }
     }
 

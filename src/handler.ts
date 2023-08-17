@@ -19,7 +19,7 @@ interface Event {
 
 export interface Context {
     name: string;
-    args: (string | number | User)[];
+    args: (string | String | number | User)[];
     bot: MyBot;
     message: Message;
     handler: Handler

@@ -10,3 +10,9 @@ datasource db {
 model test {
     hello String @id
 }
+
+model starboard {
+    server String @id
+    limit Int
+    channel String
+}

@@ -4,6 +4,6 @@
         "module": "CommonJS",
         "esModuleInterop": true,
         "outDir": "dist",
-        "skipLibCheck": true
+        "skipLibCheck": true,
     }
 }
