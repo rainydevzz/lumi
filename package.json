@@ -5,7 +5,8 @@
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
-    "build": "npm i && npx prisma generate --schema ./src/prisma/schema.prisma && npx tsc"
+    "build": "npm i && npx prisma generate --schema ./src/prisma/schema.prisma && npx tsc",
+    "start": "node dist/."
   },
   "author": "",
   "license": "ISC",
