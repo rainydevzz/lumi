@@ -25,7 +25,6 @@ export const run = async (data: any, bot: MyBot) => {
         let payload = data as Reaction;
         if(payload.emoji_id == '⭐') {    
             let res = await bot.sodium.read('stars');
-            console.log(res['result'].find(m => m.message == '01H80HSG1J50MTC9KM21V5Q78X').users.includes('01H6CXC63A82P9G9S52RHR4SAZ'));
             if(typeof res === 'string') {
                 let d: Starboard = {stars: []};
                 d['stars'].push({server: bot.channels.get(payload.channel_id).server_id, message: payload.id, users: [payload.user_id]});
